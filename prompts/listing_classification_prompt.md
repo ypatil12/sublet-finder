@@ -56,9 +56,14 @@ Date rules (critical):
   - "mid May" => `YYYY-05-15`; "late May" => `YYYY-05-25`; "early May" => `YYYY-05-05`.
 - If end date exists but start date missing, keep `move_in = null` and set only `move_out`.
 - `duration_months`:
+  - Explicit lease terms override inferred short windows.
+  - "1 year lease", "12 month lease", "one-year lease" => `duration_months = 12`.
+  - "2 year lease", "24 month lease" => `duration_months = 24`.
+  - "new 1-year lease starting ..." => `duration_months = 12`.
   - If both dates present, compute rounded month span as integer.
   - If text says "3 months", use that integer.
   - Else `null`.
+- If the post gives a long lease term and only a move-in choice (for example "April 15 or May 1" plus "Lease: 1 year"), do not invent a short `move_out`.
 - Invalid calendar dates:
   - Never output impossible dates (e.g., June 31, Feb 30).
   - If day is out of range but month/year are clear, clamp to month-end (e.g., June 31 -> June 30).
