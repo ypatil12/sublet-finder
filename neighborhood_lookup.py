@@ -109,7 +109,6 @@ def build_neighborhood_commutes(path: Path = DEFAULT_NTA_PATH) -> list[CommuteRo
     csv_path = ensure_nta_csv(path)
     csv.field_size_limit(10_000_000)
 
-    # Seed values from existing, manually tuned listing neighborhoods.
     seed_minutes = {hood.canonical.lower(): hood.commute_minutes for hood in COMMUTE_SEEDS}
 
     rows: dict[str, CommuteRow] = {}
@@ -145,7 +144,6 @@ def build_neighborhood_commutes(path: Path = DEFAULT_NTA_PATH) -> list[CommuteRo
                 is_fallback=is_fallback,
             )
 
-    # Ensure common listing aliases remain directly joinable from post classifications.
     for hood in COMMUTE_SEEDS:
         key = hood.canonical.lower()
         rows[key] = CommuteRow(
